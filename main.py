@@ -37,7 +37,18 @@ def spent_made(amount,date):
 	print "Total amount made:  $%0.2f"%tot_made
 	print "="*25
 
-spent_made(amount,date)
-plot(balance)
+def lookup(tag,amount,desc):
+	ct,amt=0,0.0
+	tags=[tag,tag.upper(),tag.lower(),tag.capitalize()]
+	for cur_amount,cur_desc in zip(amount,desc):
+		for t in tags:
+			if t in cur_desc:
+				ct+=1
+				amt+=cur_amount
+				break
+	print ct,amt
+
+lookup('uber',amount,desc)
+
 
 
