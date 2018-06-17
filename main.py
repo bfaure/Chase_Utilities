@@ -3,6 +3,23 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import datetime as dt
 
+
+'''
+add support for auto-downloading more recent .csv file from Chase, 
+as opposed to using file in current directory
+'''
+
+category_identifiers={	'drinking':				['pub','bar','liquor','spirit','beer'],
+						'store':				['7-ELEVEN','Rite aid','stop & shop','wawa','wholefeds'],
+						'gasoline': 			['exxonmobil',],
+						'ride-sharing': 		['uber','lyft'],
+						'prudential-purchase': 	['prudential RO'],
+						'prudential-payment': 	['prudential ins', 'pru acct']
+						}
+
+
+
+
 data_f='Chase5839_Activity_20180612.CSV'
 
 data=open(data_f,'r').read().split('\n')
@@ -39,16 +56,24 @@ def spent_made(amount,date):
 
 def lookup(tag,amount,desc):
 	ct,amt=0,0.0
-	tags=[tag,tag.upper(),tag.lower(),tag.capitalize()]
+	for cur_amount,cur_desc in zip(amount,desc):
+		if tag.lower() in cur_desc.lower():
+			ct+=1
+			amt+=cur_amount
+	print ct,amt
+
+def lookups(tags,amount,desc):
+	ct,amt=0,0.0
 	for cur_amount,cur_desc in zip(amount,desc):
 		for t in tags:
-			if t in cur_desc:
+			if t.lower() in cur_desc.lower():
 				ct+=1
 				amt+=cur_amount
 				break
 	print ct,amt
 
-lookup('uber',amount,desc)
+
+lookup('vap',amount,desc)
 
 
 
